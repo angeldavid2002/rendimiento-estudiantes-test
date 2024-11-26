@@ -16,16 +16,26 @@
             height: 500px;
             margin: auto;
         }
-        #analysis, #references {
-            display: none;
+        #analysis {
+            display: none; /* Inicialmente oculto */
             margin-top: 20px;
-            border: 1px solid #ccc;
             padding: 10px;
             background-color: #fff; /* Color de fondo */
             border-radius: 10px; /* Bordes curvos */
             transition: transform 0.5s, box-shadow 0.5s; /* Transición para la animación */
         }
-        #analysis:hover, #references:hover {
+        #analysis:hover {
+            transform: translateY(-5px); /* Elevar el contenedor */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para el efecto de elevación */
+        }
+        #references {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff; /* Color de fondo */
+            border-radius: 10px; /* Bordes curvos */
+            transition: transform 0.5s, box-shadow 0.5s; /* Transición para la animación */
+        }
+        #references:hover {
             transform: translateY(-5px); /* Elevar el contenedor */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para el efecto de elevación */
         }
@@ -54,10 +64,21 @@
     <div id="analysis"></div>
     <div id="references">
         <h3>Referencias de los Datos</h3>
+        <h4>Datos sobre impacto de los test vocacionales y rendimiento académico:</h4>
         <ul>
             <li><a href="https://unade.edu.mx/importancia-test-vocacional" target="_blank">Importancia de los Test Vocacionales - UNADE</a></li>
+            <li><a href="https://www.redalyc.org/articulo.oa?id=293124540005" target="_blank">Impacto en el rendimiento académico - Redalyc</a></li>
             <li><a href="https://revistas.ucr.ac.cr/index.php/aie/article/view/41546" target="_blank">Impacto en el rendimiento académico - Revista UCR</a></li>
-            <li><a href="https://zaguan.unizar.es/record/108524/files/Tesis_Sotelo.pdf" target="_blank">Proyecciones educativas y estadísticas - Zaguán</a></li>
+        </ul>
+        <h4>Análisis de estadísticas longitudinales y motivación en estudiantes:</h4>
+        <ul>
+            <li><a href="https://journals.sagepub.com/home/apa" target="_blank">Análisis en SAGE Journals</a></li>
+            <li><a href="https://oes.fundacion-sm.org/rendimiento-academico-y-motivacion-estudiantes" target="_blank">Rendimiento académico y motivación - Fundación SM</a></li>
+        </ul>
+        <h4>Proyecciones y modelos predictivos:</h4>
+        <ul>
+            <li><a href="https://zaguan.unizar.es/record/108524/files/Tesis_Sotelo.pdf" target="_blank">Proyecciones educativas - Zaguán</a></li>
+            <li><a href="https://www.doi.org/10.1007/s10212-021-00606-8" target="_blank">Modelos predictivos - DOI</a></li>
         </ul>
     </div>
 
@@ -75,7 +96,7 @@
                 },
                 {
                     label: 'Sin Test Vocacional',
-                    data: [67, 65, 64, 63, 62, 60, 59, 58, 57],
+                    data: [67, 65, 64,  63, 62, 60, 59, 58, 57],
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     fill: true,
@@ -139,7 +160,7 @@
                 case '2021':
                     analysisContent += datasetIndex === 0 ? 
                         `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 90%</p><p>Análisis: Se observa una estabilización en el rendimiento académico, lo que indica que los beneficios del test vocacional tienen efectos duraderos.</p>` :
-                        `<p>Estudiantes sin Test Vocacional:</p>< <p>Rendimiento: 59%</p><p>Análisis: La brecha con respecto al grupo guiado se amplía, mostrando la necesidad urgente de estrategias de intervención para estos estudiantes.</p>`;
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 59%</p><p>Análisis: La brecha con respecto al grupo guiado se amplía, mostrando la necesidad urgente de estrategias de intervención para estos estudiantes.</p>`;
                     break;
                 case '2022':
                     analysisContent += datasetIndex === 0 ? 
