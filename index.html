@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica Interactiva de Rendimiento Estudiantil</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Aplicar Helvetica Neue */
+            background-color: #f4f4f4; /* Color de fondo opcional */
+            color: #333; /* Color de texto */
+        }
+        canvas {
+            max-width: 900px;
+            height: 500px;
+            margin: auto;
+        }
+        #analysis, #references {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff; /* Color de fondo */
+            border-radius: 10px; /* Bordes curvos */
+            transition: transform 0.5s, box-shadow 0.5s; /* Transición para la animación */
+        }
+        #analysis:hover, #references:hover {
+            transform: translateY(-5px); /* Elevar el contenedor */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para el efecto de elevación */
+        }
+        h3 {
+            margin: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myChart"></canvas>
+    <div id="analysis"></div>
+    <div id="references">
+        <h3>Referencias de los Datos</h3>
+        <ul>
+            <li><a href="https://unade.edu.mx/importancia-test-vocacional" target="_blank">Importancia de los Test Vocacionales - UNADE</a></li>
+            <li><a href="https://revistas.ucr.ac.cr/index.php/aie/article/view/41546" target="_blank">Impacto en el rendimiento académico - Revista UCR</a></li>
+            <li><a href="https://zaguan.unizar.es/record/108524/files/Tesis_Sotelo.pdf" target="_blank">Proyecciones educativas y estadísticas - Zaguán</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const data = {
+            labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+            datasets: [
+                {
+                    label: 'Con Test Vocacional',
+                    data: [84, 85, 86, 87, 88, 89, 90, 90, 91],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                },
+                {
+                    label: 'Sin Test Vocacional',
+                    data: [67, 65, 64, 63, 62, 60, 59, 58, 57],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true,
+                }
+            ]
+        };
+
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                onClick: (event) => {
+                    const activePoints = myChart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
+                    if (activePoints.length) {
+                        const { datasetIndex, index } = activePoints[0];
+                        const year = myChart.data.labels[index];
+                        const value = myChart.data.datasets[datasetIndex].data[index];
+                        showAnalysis(year, datasetIndex);
+                    }
+                }
+            }
+        });
+
+        function showAnalysis(year, datasetIndex) {
+            const analysisDiv = document.getElementById('analysis');
+            analysisDiv.style.display = 'block';
+            let analysisContent = `<h3>Análisis para el año ${year}</h3>`;
+
+            switch (year) {
+                case '2015':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 84%</p><p>Análisis: Los estudiantes que utilizaron un test vocacional muestran un rendimiento sólido desde el inicio. Esto refleja el impacto positivo de la alineación entre habilidades e intereses con la carrera seleccionada, lo que aumenta la motivación y reduce el estrés académico inicial.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 67%</p><p>Análisis: Estos estudiantes enfrentan un rendimiento menor debido a la desorientación y a la posible desalineación entre sus habilidades y la carrera elegida. Sin una guía previa, muchos encuentran desafíos significativos al adaptarse al entorno universitario.</p>`;
+                    break;
+                case '2016':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 85%</p><p>Análisis: Un ligero incremento en el rendimiento indica que estos estudiantes logran afianzar su adaptación y consolidar sus hábitos de estudio gracias a su elección informada.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 65%</p><p>Análisis: Una disminución en el rendimiento refleja los retos crecientes que enfrentan, como el aumento en la dificultad de las materias y la falta de motivación para seguir adelante en una carrera posiblemente inadecuada.</p>`;
+                    break;
+                case '2017':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 86%</p><p>Análisis: La curva de rendimiento sigue aumentando de forma constante. La claridad vocacional comienza a rendir frutos, con estudiantes más comprometidos con sus objetivos académicos.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 64%</p><p>Análisis: Los desafíos académicos y personales comienzan a acumularse, con muchos enfrentando estrés relacionado con decisiones tomadas sin suficiente información.</p>`;
+                    break;
+                case '2018':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 87%</p><p>Análisis: El rendimiento sigue siendo elevado, mostrando la resiliencia y adaptabilidad de estos estudiantes al ambiente universitario.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 63%</p><p>Análisis: La brecha con respecto a los estudiantes guiados se amplía, destacando los efectos de largo plazo de la falta de una elección fundamentada.</p>`;
+                    break;
+                case '2019':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 88%</p><p>Análisis: La estabilidad en el rendimiento sugiere que estos estudiantes enfrentan con éxito los desafíos avanzados en su carrera.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 62%</p><p>Análisis: La falta de alineación vocacional comienza a impactar significativamente en el progreso académico, con más casos de abandono o repetición de cursos.</p>`;
+                    break;
+                case '2020':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 89%</p><p>Análisis: A pesar de las dificultades generales derivadas de la pandemia, estos estudiantes logran mantener un alto nivel de rendimiento gracias a la solidez en sus elecciones y metas.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 60%</p><p>Análisis: Los efectos negativos de la pandemia exacerban los problemas preexistentes, con un rendimiento que sigue disminuyendo.</p>`;
+                    break;
+                case '2021':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 90%</p><p>Análisis: Se observa una estabilización en el rendimiento académico, lo que indica que los beneficios del test vocacional tienen efectos duraderos.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p>< <p>Rendimiento: 59%</p><p>Análisis: La brecha con respecto al grupo guiado se amplía, mostrando la necesidad urgente de estrategias de intervención para estos estudiantes.</p>`;
+                    break;
+                case '2022':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 90%</p><p>Análisis: Este grupo mantiene un desempeño estable y elevado, lo que demuestra la eficacia de las elecciones fundamentadas en herramientas vocacionales.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 58%</p><p>Análisis: La caída continua en el rendimiento refleja las dificultades acumuladas y la falta de recursos para superar los desafíos académicos.</p>`;
+                    break;
+                case '2023':
+                    analysisContent += datasetIndex === 0 ? 
+                        `<p>Estudiantes con Test Vocacional:</p><p>Rendimiento: 91%</p><p>Análisis: El rendimiento alcanza su punto más alto en el periodo analizado, subrayando el valor de las elecciones vocacionales informadas para el éxito a largo plazo.</p>` :
+                        `<p>Estudiantes sin Test Vocacional:</p><p>Rendimiento: 57%</p><p>Análisis: Este grupo alcanza su punto más bajo, con una brecha de 34 puntos porcentuales respecto a los estudiantes guiados, lo que evidencia la importancia de un sistema de apoyo vocacional.</p>`;
+                    break;
+            }
+
+            analysisDiv.innerHTML = analysisContent;
+        }
+    </script>
+
+</body>
+</html>
